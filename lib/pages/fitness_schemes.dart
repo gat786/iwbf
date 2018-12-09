@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iwbf/pages/scheduler.dart';
 
-import 'package:iwbf/pages/weekly_plan.dart';
+
 
 class FitnessScheme extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class FitnessScheme extends StatefulWidget {
 }
 
 var message = "some random facts about the activity that is to be done in the program";
+
 Color cardTitleTextColor = Color.fromARGB(255, 231, 76, 60);
 
 class _FitnessSchemeState extends State<FitnessScheme> {
@@ -36,7 +38,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => WeeklySchedule("Fat Loss", "https://res.cloudinary.com/dtldj8hpa/image/upload/v1544121166/Abs.jpg")
+                      builder: (BuildContext context) => Scheduler(courseType: "Fat Loss")
                     )  
                   );
                 },
@@ -51,7 +53,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => WeeklySchedule("Belly Fat Loss", "https://res.cloudinary.com/dtldj8hpa/image/upload/v1544121166/Abs.jpg")
+                      builder: (BuildContext context) => Scheduler(courseType: "Belly Fat Loss")
                     )  
                   );
                 },
@@ -66,7 +68,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => WeeklySchedule("Six Pack Abs", "https://res.cloudinary.com/dtldj8hpa/image/upload/v1544121166/Abs.jpg")
+                      builder: (BuildContext context) => Scheduler(courseType: "Six Pack Abs",)
                     )  
                   );
                 },

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -8,8 +10,8 @@ var random = new Random();
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    timeout(context);
     return Scaffold(
-        //backgroundColor: Color.fromARGB(255,243, 156, 18),
         body: Stack(children: <Widget>[
           
           Container(
@@ -21,6 +23,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
+
+          Container(
+            color: Colors.black54,
+          ),
 
           Container(
             height: MediaQuery.of(context).size.height,
@@ -55,14 +61,10 @@ class HomePage extends StatelessWidget {
                   height: 100.0,
                 ),
 
-                IconButton(
-                  icon: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed("/select");
-                  },
+
+                CircularProgressIndicator(
+                  semanticsLabel: "Loading..",
+
                 )
 
               ],
@@ -76,4 +78,12 @@ class HomePage extends StatelessWidget {
             
       );
     }
+  }
+
+
+  timeout(context){
+    const timeout = const Duration(seconds: 2);
+    Timer(timeout,(){
+      Navigator.of(context).pushReplacementNamed("/select");
+    });
   }
