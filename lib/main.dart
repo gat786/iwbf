@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:iwbf/pages/detailed_day_view.dart';
 
 import 'package:iwbf/pages/fitness_schemes.dart';
-import 'package:iwbf/pages/homepage.dart';
+import 'package:iwbf/pages/splashscreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,12 +13,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-
-      title: 'Flutter Demo',
-
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
 
       home: HomePage(),
 

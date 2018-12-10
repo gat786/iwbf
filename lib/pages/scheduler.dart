@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iwbf/data/colors.dart';
+import 'package:iwbf/pages/detailed_day_view.dart';
 
 var weekNumber = 1;
 
@@ -33,6 +34,7 @@ class SchedulerState extends State<Scheduler> {
         centerTitle: true,
       ),
       body: Material(
+        color: Colors.yellow.withAlpha(160),
         child: Container(
           child: Row(
             children: <Widget>[
@@ -40,15 +42,23 @@ class SchedulerState extends State<Scheduler> {
 
 
               Expanded(
-                child: Container(
-                  color: Colors.white30,
+                child:Container(
+
                   child: Column(
 
                     children: cardsListForWeek(context,weekNumber),
                     mainAxisAlignment: MainAxisAlignment.center,
 
                   ),
+
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+
+
+                  ),
+
                 ),
+
                 flex: 1,
               ),
 
@@ -56,7 +66,7 @@ class SchedulerState extends State<Scheduler> {
 
               Expanded(
                 child: Container(
-                  color: Colors.yellow,
+
                   child: ListView(
 
                     children: daysCardList
@@ -92,7 +102,7 @@ class SchedulerState extends State<Scheduler> {
 
   Widget cardForWeek(context,weekNumber,{selected}){
     return Container(
-      color: (selected)?Colors.yellow:Colors.white,
+
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
@@ -105,13 +115,19 @@ class SchedulerState extends State<Scheduler> {
             child: Container(
               height: 75.0,
               child: Center(
-                child: Text("Week $weekNumber"),
+                child: Text(
+                    "Week $weekNumber",
+                  style: TextStyle(
+                    color: (selected)?Colors.white:Colors.black,
+                  ),
+                ),
               ),
             ),
             onTap: (){
               recalculateDaysCardList(context,weekNumber);
             },
           ),
+            color: (selected)?Colors.orange:Colors.white,
 
 
         ),
@@ -152,7 +168,7 @@ class SchedulerState extends State<Scheduler> {
             ),
           ),
           onTap: (){
-
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> DetailedView(dayNumber: dayNumber,courseName: widget.courseType,) ));
           },
         ),
       ),
