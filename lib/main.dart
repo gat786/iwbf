@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iwbf/pages/detailed_day_view.dart';
 
 import 'package:iwbf/pages/fitness_schemes.dart';
+import 'package:iwbf/pages/single_exercise_detailed.dart';
 import 'package:iwbf/pages/splashscreen.dart';
 
 void main() => runApp(MyApp());

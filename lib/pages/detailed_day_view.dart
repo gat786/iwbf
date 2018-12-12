@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iwbf/data/colors.dart';
+import 'package:iwbf/pages/single_exercise_detailed.dart';
 
 class DetailedView extends StatefulWidget {
 
@@ -27,14 +28,17 @@ class DetailedViewState extends State<DetailedView> {
 
   @override
   Widget build(BuildContext context) {
-
-    var card = exerciseCard(
-      assetPath: "",
-      exerciseName: "Push Ups",
-      exerciseDetails: "This is the exercise used by beginner as well as experts as it increases core strength and fitness",
-      context: context,
-    );
-
+    List<Widget> cards =[];
+    for (int i = 1;i<4;i++) {
+      Widget card = exerciseCard(
+        assetPath: imgurl2,
+        exerciseName: "Push Ups",
+        exerciseDetails: "This is the exercise used by beginner as well as experts as it increases core strength and fitness",
+        context: context,
+        counter: i
+      );
+      cards.add(card);
+    }
     return Scaffold(
 
       appBar: AppBar(
@@ -57,10 +61,9 @@ class DetailedViewState extends State<DetailedView> {
               context: context,
             ),
 
-            card,
-            card,
-            card
-
+            cards[0],
+            cards[1],
+            cards[2]
 
           ],
         ),
@@ -96,29 +99,50 @@ class DetailedViewState extends State<DetailedView> {
     );
   }
 
-  Widget exerciseCard({assetPath,exerciseName,exerciseDetails,context}){
+  Widget exerciseCard({assetPath,exerciseName,exerciseDetails,context,counter}){
     return InkWell(
-      onTap: (){},
+      onTap: (){
+
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (BuildContext context) => ExerciseDetailed(
+                  counterNumber: counter,
+                  imageUrl: assetPath,
+                )
+            )
+        );
+
+      },
+
       child: Container(
         height: 120.0,
         child: Row(
           children: <Widget>[
 
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+            Hero(
+              tag: "exerciseImage$counter",
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
 
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.yellow,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.yellow,
+                      image: DecorationImage(
+                        image: (assetPath!="")
+                            ? NetworkImage(assetPath)
+                            : NetworkImage(imgurl1),
+                        fit: BoxFit.cover
+                      )
+                    ),
+
                   ),
-
                 ),
+
+                width: 120.0,
+
               ),
-
-              width: 120.0,
-
             ),
 
 
@@ -141,7 +165,6 @@ class DetailedViewState extends State<DetailedView> {
                         ),
                       ),
                     ),
-
 
                     Padding(
                       padding: const EdgeInsets.only(top:8.0,right: 8.0,left: 8.0,bottom: 16.0),
