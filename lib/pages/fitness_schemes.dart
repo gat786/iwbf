@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iwbf/data/drawer_icons.dart';
 import 'package:iwbf/data/colors.dart';
+
+
+
 import 'package:iwbf/pages/scheduler.dart';
 
 
@@ -16,123 +20,189 @@ var message = "some random facts about the activity that is to be done in the pr
 
 
 class _FitnessSchemeState extends State<FitnessScheme> {
+
+  _buildDrawer(context){
+    return Drawer(
+
+      child: Container(
+        color: lightYellow,
+        child: ListView(
+          children: <Widget>[
+
+            DrawerHeader(
+              child: Container(
+
+              ),
+            ),
+
+            ListTile(
+              leading: select,
+              title: Text("Select Course"),
+              onTap: (){
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: reminder,
+              title: Text("Set a Reminder"),
+              onTap: (){
+                Navigator.popAndPushNamed(context, '/reminder');
+              },
+            ),
+
+            ListTile(
+              leading: bmi,
+              title: Text("Calculate BMI"),
+              onTap: (){
+                Navigator.popAndPushNamed(context, '/bmi');
+              },
+            ),
+
+            ListTile(
+              leading: bmr,
+              title: Text("Calculate BMR"),
+              onTap: (){
+                Navigator.popAndPushNamed(context, '/bmr');
+              },
+            ),
+
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Settings"),
+              onTap: (){
+
+              },
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text("Select Course"),
-        //   centerTitle: true,
-        //   backgroundColor: Color.fromARGB(255,243, 156, 18),
-        //   automaticallyImplyLeading: false,
-        // ),
+
+      drawer: _buildDrawer(context),
+       appBar: AppBar(
+         title: Text("Select Course"),
+
+         centerTitle: true,
+
+         backgroundColor: appBar,
+
+
+       ),
         body: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Material(
-          color: Colors.yellowAccent.withOpacity(0.6),
-          child: Stack(
-            children: [
+          debugShowCheckedModeBanner: false,
+          home: Material(
+            color: lightYellow,
+            child: Stack(
+              children: [
 
-              Container(
+    //              Container(
+    //
+    //                height: MediaQuery.of(context).size.height / 2 - 100,
+    //                width: MediaQuery.of(context).size.width,
+    //
+    //                decoration: BoxDecoration(
+    //                  borderRadius: BorderRadius.only(
+    //                    bottomLeft: Radius.circular(16.0),
+    //                    bottomRight: Radius.circular(16.0),
+    //                  ),
+    //                  color: Colors.deepOrange,
+    //                ),
+    //
+    //                child: Padding(
+    //                  padding: EdgeInsets.only(top:50.0,left: 16.0),
+    //                  child: Column(
+    //                    mainAxisSize: MainAxisSize.max,
+    //                    children: <Widget>[
+    //
+    //                      Text(
+    //                        "I WILL BE FIT",
+    //                        style: TextStyle(
+    //                          color: Colors.white,
+    //                          fontSize: 32.0,
+    //                          fontWeight: FontWeight.bold
+    //                        ),
+    //                      ),
+    //
+    //                      Padding(
+    //                        padding: const EdgeInsets.only(top: 16.0),
+    //                        child: Text(
+    //                          "Choose Your Preferred Course",
+    //                          style: TextStyle(
+    //                              color: Colors.white,
+    //                              fontSize: 16.0,
+    //                              fontWeight: FontWeight.normal
+    //                          ),
+    //                        ),
+    //                      ),
+    //
+    //                    ],
+    //                  ),
+    //                ),
+    //
+    //              ),
 
-                height: MediaQuery.of(context).size.height / 2 - 100,
-                width: MediaQuery.of(context).size.width,
-                
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16.0),
-                    bottomRight: Radius.circular(16.0),
-                  ),
-                  color: Colors.deepOrange,
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+
+                  children: <Widget>[
+
+
+                    cardWidget(
+                      context,
+                      (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Scheduler(courseType: "Fat Loss")
+                          )
+                        );
+                      },
+                      imagePath: "assets/icons/waist.svg",
+                      message: message,
+                      cardTitle: "Fat Loss"
+                    ),
+
+                    cardWidget(
+                      context,
+                      (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Scheduler(courseType: "Belly Fat Loss")
+                          )
+                        );
+                      },
+                      imagePath: "assets/icons/liposuction.svg",
+                      message: message,
+                      cardTitle: "Belly Fat Loss"
+                    ),
+
+                    cardWidget(
+                      context,
+                      (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Scheduler(courseType: "Six Pack Abs",)
+                          )
+                        );
+                      },
+                      imagePath: "assets/icons/fitness.svg",
+                      message: message,
+                      cardTitle: "Six Pack Abs"
+                    ),
+
+                  ],
                 ),
-                
-                child: Padding(
-                  padding: EdgeInsets.only(top:50.0,left: 16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
 
-                      Text(
-                        "I WILL BE FIT",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: Text(
-                          "Choose Your Preferred Course",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.normal
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-
-              ),
-
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: <Widget>[
-
-
-                  cardWidget(
-                    context,
-                    (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Scheduler(courseType: "Fat Loss")
-                        )
-                      );
-                    },
-                    imagePath: "assets/icons/waist.svg",
-                    message: message,
-                    cardTitle: "Fat Loss"
-                  ),
-
-                  cardWidget(
-                    context,
-                    (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Scheduler(courseType: "Belly Fat Loss")
-                        )
-                      );
-                    },
-                    imagePath: "assets/icons/liposuction.svg",
-                    message: message,
-                    cardTitle: "Belly Fat Loss"
-                  ),
-
-                  cardWidget(
-                    context,
-                    (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Scheduler(courseType: "Six Pack Abs",)
-                        )
-                      );
-                    },
-                    imagePath: "assets/icons/fitness.svg",
-                    message: message,
-                    cardTitle: "Six Pack Abs"
-                  ),
-
-                ],
-              ),
-            
             ],
           ),
         ),
@@ -142,7 +212,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
 
 }
 
-Widget cardWidget(context,callback,{imagePath:null,cardTitle:null,message:null}){
+Widget cardWidget(context,callback,{imagePath,cardTitle,message}){
   return  Container(
     height: 120.0,
     width: MediaQuery.of(context).size.width,

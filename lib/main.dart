@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iwbf/pages/detailed_day_view.dart';
+import 'package:iwbf/pages/calculate_bmi.dart';
+import 'package:iwbf/pages/calculate_bmr.dart';
 
 import 'package:iwbf/pages/fitness_schemes.dart';
-import 'package:iwbf/pages/single_exercise_detailed.dart';
+
+
 import 'package:iwbf/pages/splashscreen.dart';
 
 void main() => runApp(MyApp());
@@ -15,10 +17,12 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
 
-      home: HomePage(),
+      home: CalculateBmi(),
 
       routes: <String,WidgetBuilder> {
         '/select': (BuildContext context) => FitnessScheme(),
+        '/bmi': (BuildContext context) => CalculateBmi(),
+        '/bmr': (BuildContext context) => CalculateBmr(),
       },
 
     );
