@@ -21,11 +21,12 @@ var message = "some random facts about the activity that is to be done in the pr
 
 class _FitnessSchemeState extends State<FitnessScheme> {
 
+  Offset startPosition;
+  Offset endPosition;
+
   _buildDrawer(context){
     return Drawer(
-
       child: Container(
-        color: lightYellow,
         child: ListView(
           children: <Widget>[
 
@@ -81,193 +82,190 @@ class _FitnessSchemeState extends State<FitnessScheme> {
     );
   }
 
+
+  GlobalKey<ScaffoldState> key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      drawer: _buildDrawer(context),
-       appBar: AppBar(
-         title: Text("Select Course"),
-
-         centerTitle: true,
-
-         backgroundColor: appBar,
-
-
-       ),
-        body: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Material(
-            color: lightYellow,
-            child: Stack(
-              children: [
-
-    //              Container(
-    //
-    //                height: MediaQuery.of(context).size.height / 2 - 100,
-    //                width: MediaQuery.of(context).size.width,
-    //
-    //                decoration: BoxDecoration(
-    //                  borderRadius: BorderRadius.only(
-    //                    bottomLeft: Radius.circular(16.0),
-    //                    bottomRight: Radius.circular(16.0),
-    //                  ),
-    //                  color: Colors.deepOrange,
-    //                ),
-    //
-    //                child: Padding(
-    //                  padding: EdgeInsets.only(top:50.0,left: 16.0),
-    //                  child: Column(
-    //                    mainAxisSize: MainAxisSize.max,
-    //                    children: <Widget>[
-    //
-    //                      Text(
-    //                        "I WILL BE FIT",
-    //                        style: TextStyle(
-    //                          color: Colors.white,
-    //                          fontSize: 32.0,
-    //                          fontWeight: FontWeight.bold
-    //                        ),
-    //                      ),
-    //
-    //                      Padding(
-    //                        padding: const EdgeInsets.only(top: 16.0),
-    //                        child: Text(
-    //                          "Choose Your Preferred Course",
-    //                          style: TextStyle(
-    //                              color: Colors.white,
-    //                              fontSize: 16.0,
-    //                              fontWeight: FontWeight.normal
-    //                          ),
-    //                        ),
-    //                      ),
-    //
-    //                    ],
-    //                  ),
-    //                ),
-    //
-    //              ),
-
-
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
+    return Builder(
+      builder:(BuildContext context) {
+        return Scaffold(
+          key: key,
+          drawer: _buildDrawer(context),
+          body: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Material(
+                child: ListView(
                   children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+
+                        Container(
+                          height: 310.0,
+                          width: MediaQuery.of(context).size.width,
+
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 200,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 50.0,left: 24.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.menu,
+                                              size: 32.0,
+                                            ),
+                                            onPressed: (){
+                                              key.currentState.openDrawer();
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 24.0,top: 24.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text("I Will",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 52.0,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+
+                                          Text("Be Fit",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 52.0
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                width: MediaQuery.of(context).size.width - 200,
+                                child: Center(
+                                  child: SvgPicture.asset("assets/icons/fit-guy.svg",
+                                  ),
+                                ),
+                              )
+
+                            ],
+                          ),
+                        ),
+
+                          cardBuilder(context,
+                            "Belly Fat Loss",
+                            "assets/icons/liposuction.svg"
+                          ),
+                         cardBuilder(context,
+                            "Six Pack Abs",
+                            "assets/icons/fitness.svg"
+                          ),
 
 
-                    cardWidget(
-                      context,
-                      (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Scheduler(courseType: "Fat Loss")
-                          )
-                        );
-                      },
-                      imagePath: "assets/icons/waist.svg",
-                      message: message,
-                      cardTitle: "Fat Loss"
+
+                          cardBuilder(context,
+                            "Fat Loss",
+                            "assets/icons/waist.svg"
+                          ),
+
+                      ],
                     ),
-
-                    cardWidget(
-                      context,
-                      (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Scheduler(courseType: "Belly Fat Loss")
-                          )
-                        );
-                      },
-                      imagePath: "assets/icons/liposuction.svg",
-                      message: message,
-                      cardTitle: "Belly Fat Loss"
-                    ),
-
-                    cardWidget(
-                      context,
-                      (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Scheduler(courseType: "Six Pack Abs",)
-                          )
-                        );
-                      },
-                      imagePath: "assets/icons/fitness.svg",
-                      message: message,
-                      cardTitle: "Six Pack Abs"
-                    ),
-
                   ],
-                ),
-
-            ],
-          ),
-        ),
-      ),
-    );
+                )
+              ),
+            ),
+          );
+        }
+      );
+    }
   }
 
+moveTo(context,courseType){
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => Scheduler(courseType: courseType,)
+      )
+  );
 }
 
-Widget cardWidget(context,callback,{imagePath,cardTitle,message}){
-  return  Container(
-    height: 120.0,
+
+cardBuilder(context,title,icon){
+  return Container(
+    margin: EdgeInsets.only(top: 8.0),
+    height: 250.0,
     width: MediaQuery.of(context).size.width,
-    padding: EdgeInsets.only(left: 10.0,right: 10.0,bottom: 10.0),
-    child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0)
-      ),
-      child: InkWell(
-          child: Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(8.0),
-              width: 150.0,
-              child: SvgPicture.asset(
-                imagePath,
-                width: 100,
-                color: Colors.redAccent,
-              ),
-            ),
+    child: Stack(
+      children: <Widget>[
 
-            Container(
-              height: double.infinity,
-              width: MediaQuery.of(context).size.width - 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    cardTitle,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'Lato',
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+                child: InkWell(
+
+                  onTap: (){
+                    moveTo(context, title);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+
+                    child: Material(
+                      color: primary,
+                      child: Column(
+                        children: <Widget>[
+
+                          Container(
+                              height: 70.0,
+                              color: Colors.white,
+                              child: Center(
+                                child: Text(
+                                  title,
+                                  style: TextStyle(
+                                      fontSize: 24.0
+                                  ),
+                                ),
+                              )
+                          ),
+
+
+                          Container(
+                            height: 150.0,
+                            child: Center(
+                              child:SvgPicture.asset(icon,
+                                height: 100.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+
+                        ],
                       ),
-                    textAlign: TextAlign.center,
+                    ),
                   ),
-
-//                  Padding(
-//                    padding: const EdgeInsets.only(top: 20.0),
-//                    child: Text(
-//                      message,
-//                      textAlign: TextAlign.center,
-//                       style: TextStyle(
-//                         fontFamily: 'Lato',
-//                         color: Colors.black54
-//                       ),
-//                    ),
-//                  )
-
-                ],
+                ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)
               ),
             ),
-          ],
-        ),
-        onTap: callback,
-      ),
+          ),
+
+      ],
     ),
   );
 }

@@ -13,70 +13,57 @@ class _ReminderSetterState extends State<ReminderSetter> {
   final hourHandLength = 120.0;
   final hourMinuteLength = 100.0;
 
+  final Offset center = Offset(0,190);
+
+  @override
+  bool hitTestSelf(Offset position)=> true;
+
+  selectTime({context,initialDate,firstDate,lastDate,}) async {
+    TimeOfDay picked = await showTimePicker(context: context, initialTime: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Material(
         child: Container(
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
+          height: MediaQuery.of(context).size.height,
 
-                      height: 300.0,
-                      width: 300.0,
-                      child: CustomPaint(painter: ClockPainter(
-                        circleRadius: clockRadius,
-                        centerPoint: Offset(150,150)
-                      ),),
-
-                    ),
-
-                    Container(
-
-                      height: 300.0,
-                      width: 300.0,
-                      child: Stack(
-                        children: <Widget>[
-
-                          GestureDetector(
-                            child: CustomPaint(painter: ClockHandsPainter(
-                                radius: clockRadius - 40,
-                                degree: 0,
-                                centerPoint: Offset(150,150)
-                              ),
-                            ),
-                          ),
-
-
-                          GestureDetector(
-                            child: CustomPaint(painter: ClockHandsPainter(
-                                radius: clockRadius - 60,
-                                degree: 6,
-                                centerPoint: Offset(150,150)
-                              ),
-                            ),
-
-                            onPanStart: (DragStartDetails details){
-                              print("Drag started ${details.globalPosition}");
-                            },
-                          ),
+            child: Container(
+              child: FlatButton(
+                  onPressed: (){
+                    selectTime(context: context,);
+                    },
+                  child: Text("Select Time")),
+            )
+//                    CustomPaint(
+//                      painter: ClockPainter(
+//                        circleRadius: clockRadius,
+//                        centerPoint: center
+//                      ),
+//
+//                    ),
+//
+//                    CustomPaint(
+//                      painter: ClockHandsPainter(
+//                        centerPoint: center,
+//                        radius: clockRadius - 30,
+//                        degree: 60,
+//                        strokeWidth: 3
+//                      ),
+//                    ),
+//
+//
+//                    CustomPaint(
+//                      painter: ClockHandsPainter(
+//                          centerPoint: center,
+//                          radius: clockRadius - 50,
+//                          degree: 40,
+//                          strokeWidth: 3
+//                      ),
+//                    )
 
 
-
-                        ],
-                      ),
-
-                    ),
-
-
-                  ],
-                ),
-              )
-            ],
-          ),
         ),
       ),
 

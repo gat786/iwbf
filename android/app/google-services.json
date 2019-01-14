@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "698390372219",
+    "firebase_url": "https://iwbf-f4547.firebaseio.com",
+    "project_id": "iwbf-f4547",
+    "storage_bucket": "iwbf-f4547.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698390372219:android:79518620d72bb2f1",
+        "android_client_info": {
+          "package_name": "com.example.iwbf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698390372219-2givjjl1la16p3cj8fpr55ir8l066clt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrDqftXYj__mq_qwibAafqZvxSVgbOpJ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

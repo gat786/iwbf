@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -6,12 +8,12 @@ class ClockPainter extends CustomPainter{
   final circleRadius;
   final centerPoint;
 
+
   ClockPainter({this.centerPoint, this.circleRadius});
 
   final calculator = Coordinate();
 
   createPoints(centerDot,circleRadius){
-
 
     var theta =[];
 
@@ -36,6 +38,7 @@ class ClockPainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size) {
 
+
     var paint = Paint();
     paint.strokeWidth = 1.0;
     paint.color = Colors.white;
@@ -48,34 +51,14 @@ class ClockPainter extends CustomPainter{
     canvas.drawCircle(centerDot, circleRadius, selectedPaint);
     canvas.drawCircle(centerDot, 10, paint);
 
-    final List<Coordinate> pointsTop = createPoints(centerDot, circleRadius);
-
     final List<Coordinate> pointsBottom = createPoints(centerDot, circleRadius - 10);
-
-//    Coordinate topHourHand = calculator.calculateCoordinate(
-//        centerX: centerDot.dx,
-//        centerY: centerDot.dy,
-//        radius: circleRadius - 40,
-//        theta: 180
-//    );
-//
-//    Coordinate topMinuteHand = calculator.calculateCoordinate(
-//        centerX: centerDot.dx,
-//        centerY: centerDot.dy,
-//        radius: circleRadius - 60,
-//        theta: 60
-//    );
-//
-//    canvas.drawLine(Offset(centerDot.dx, centerDot.dy), Offset(topHourHand.dx, topHourHand.dy), paint);
-//
-//    canvas.drawLine(Offset(centerDot.dx, centerDot.dy), Offset(topMinuteHand.dx, topMinuteHand.dy), paint);
 
     for(var i = 0;i < pointsBottom.length; i++ )
     {
       var offsetBottom = pointsBottom[i];
 
-
       if (i % 5==0) {
+
         canvas.drawCircle(Offset(offsetBottom.dx, offsetBottom.dy), 6, paint);
       }
       else{
@@ -86,7 +69,6 @@ class ClockPainter extends CustomPainter{
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
     return true;
   }
 }
@@ -120,15 +102,16 @@ class ClockHandsPainter extends CustomPainter{
   final Offset centerPoint;
   final double radius;
   final int degree;
+  final double strokeWidth;
 
-  ClockHandsPainter( {this.centerPoint, this.radius, this.degree});
+  ClockHandsPainter( {this.centerPoint, this.radius, this.degree, this.strokeWidth});
 
 
   @override
   void paint(Canvas canvas, Size size) {
 
     var paint = Paint();
-    paint.strokeWidth = 2.0;
+    paint.strokeWidth = (strokeWidth==null)?3.0:strokeWidth;
     paint.color = Colors.white;
 
     var calculator = Coordinate();
