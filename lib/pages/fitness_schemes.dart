@@ -112,7 +112,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
                                 child: Column(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 50.0,left: 24.0),
+                                      padding: const EdgeInsets.only(top: 16.0,left: 16.0),
                                       child: Row(
                                         children: <Widget>[
                                           IconButton(
@@ -129,7 +129,7 @@ class _FitnessSchemeState extends State<FitnessScheme> {
                                     ),
 
                                     Padding(
-                                      padding: EdgeInsets.only(left: 24.0,top: 24.0),
+                                      padding: EdgeInsets.all(24.0),
                                       child: Column(
                                         children: <Widget>[
                                           Text("I Will",

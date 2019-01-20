@@ -51,6 +51,7 @@ flutter:
     - assets/icons/waist.svg
     - assets/images/jogging.png
     - assets/icons/fit-guy.svg
+    - assets/icons/relax.png
 
     # drawer icons
     - assets/icons/reminder.png

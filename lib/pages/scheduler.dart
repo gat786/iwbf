@@ -140,7 +140,7 @@ class SchedulerState extends State<Scheduler> {
     List<Widget> cards = [];
 
 
-    final startingDay =  (weekNumber == 1) ? 1 : (weekNumber - 1) * 7;
+    final startingDay =  (weekNumber == 1) ? 1 : ((weekNumber - 1) * 7) + 1;
     
     print("starting day is $startingDay");
     

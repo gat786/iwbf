@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:iwbf/data/colors.dart';
+import 'package:iwbf/data/exercise.dart';
 import 'package:iwbf/pages/single_exercise_detailed.dart';
 
 class DetailedView extends StatefulWidget {
@@ -20,25 +23,28 @@ var playingAudio = false;
 
 class DetailedViewState extends State<DetailedView> {
 
+  bool isLoaded = false;
+  bool isRestDay = false;
+  List<Exercise> objects = List();
+
+  DetailedViewState(){
+    isLoaded = false;
+    isRestDay = false;
+    getData();
+    objects.clear();
+  }
+
   final imgurl1="https://res.cloudinary.com/dtldj8hpa/image/upload/c_scale,w_889/v1544416676/iwillbefit/emma-simpson-153970-unsplash.jpg";
 
   final imgurl2="https://res.cloudinary.com/dtldj8hpa/image/upload/c_scale,w_936/v1544416190/iwillbefit/jogging.jpg";
 
   final imgurl3="https://res.cloudinary.com/dtldj8hpa/image/upload/c_scale,w_1463/v1544416296/iwillbefit/meghan-holmes-1057329-unsplash.jpg";
 
+  List<Widget> cards =[];
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> cards =[];
-    for (int i = 1;i<4;i++) {
-      Widget card = exerciseCard(
-        assetPath: imgurl2,
-        exerciseName: "Push Ups",
-        exerciseDetails: "This is the exercise used by beginner as well as experts as it increases core strength and fitness",
-        context: context,
-        counter: i
-      );
-      cards.add(card);
-    }
+
     return Scaffold(
 
       appBar: AppBar(
@@ -50,23 +56,68 @@ class DetailedViewState extends State<DetailedView> {
 
 
 
-      body: Material(
-        child: ListView(
-          children: <Widget>[
+      body: Stack(
+        children: <Widget>[
 
-            exerciseCard(
-              assetPath: "",
-              exerciseName: "Push Ups",
-              exerciseDetails: "This is the exercise used by beginner as well as experts as it increases core strength and fitness",
-              context: context,
+          Material(
+            child: ListView(
+              children: <Widget>[
+
+              ] + cards,
             ),
+          ),
 
-            cards[0],
-            cards[1],
-            cards[2]
+          (isLoaded)?Container():Container(
+            color: Colors.black54,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-          ],
-        ),
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    height: 100.0,
+                    width: 100.0,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text("Loading",
+                      style: TextStyle(color: Colors.white,fontSize: 24.0),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+
+          (isRestDay)?Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Material(
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image(
+                    image: AssetImage("assets/icons/relax.png"),
+                    height: 150.0,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text("Relax! Today is your rest day.",
+                        style: TextStyle(fontSize: 24.0),
+                    ),
+                  ),
+                ],
+              ),
+              ),
+            ):Container()
+
+
+
+        ],
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -88,7 +139,7 @@ class DetailedViewState extends State<DetailedView> {
 
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60.0,
+          height: 50.0,
         ),
         shape: CircularNotchedRectangle(),
         notchMargin: 4.0,
@@ -192,4 +243,58 @@ class DetailedViewState extends State<DetailedView> {
       ),
     );
   }
+
+
+  getData()async{
+    var data = await Firestore.instance.collection('schedules').document('intermediate').get();
+    var requiredday = (widget.dayNumber%5==0)?5:widget.dayNumber%5;
+    var requiredData=data['day$requiredday'];
+    print(requiredData);
+    objects.clear();
+    if(requiredData.runtimeType != String) {
+      for (var item in requiredData) {
+        var exercise = await Firestore.instance.collection('exercises')
+            .document(item['key']).get()
+            .then((data) {
+          var object = Exercise(name: data['name'],
+              definition: data['definition'],
+              steps: data['steps'],
+              sides: item['sides'],
+              duration: int.parse( item['duration']),
+              reps: int.parse(item['reps'])
+          );
+          objects.add(object);
+        });
+      }
+      setState(() {
+        isLoaded = true;
+        buildCards(objects);
+      });
+    }
+    else{
+      setState(() {
+        isLoaded = true;
+        isRestDay = true;
+      });
+    }
+
+  }
+
+  buildCards(List<Exercise> data){
+
+    for (int i = 1; i <= data.length; i++) {
+      Widget card = exerciseCard(
+          assetPath: imgurl2,
+          exerciseName: data[i - 1].name,
+          exerciseDetails: (data[i - 1].definition == null)
+              ? "dummy"
+              : data[i - 1].definition,
+          context: context,
+          counter: i
+      );
+      cards.add(card);
+    }
+
+  }
+
 }
