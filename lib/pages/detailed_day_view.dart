@@ -25,7 +25,7 @@ class DetailedViewState extends State<DetailedView> {
 
   bool isLoaded = false;
   bool isRestDay = false;
-  List<Exercise> objects = List();
+  List<DetailedExerciseData> objects = List();
 
   DetailedViewState(){
     isLoaded = false;
@@ -207,27 +207,27 @@ class DetailedViewState extends State<DetailedView> {
                   children: <Widget>[
 
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0,left: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
                         exerciseName,
                         style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black,
+                          fontSize: 25.0,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(top:8.0,right: 8.0,left: 8.0,bottom: 16.0),
-                      child: Text(
-                        exerciseDetails,
-                        style: TextStyle(
-                          color: Colors.black54
-                        ),
-                        softWrap: true,
-                        maxLines: 3,
-                      ),
-                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.only(top:8.0,right: 8.0,left: 8.0,bottom: 16.0),
+//                      child: Text(
+//                        exerciseDetails,
+//                        style: TextStyle(
+//                          color: Colors.black54
+//                        ),
+//                        softWrap: true,
+//                        maxLines: 3,
+//                      ),
+//                    ),
 
                   ],
                 ),
@@ -261,45 +261,17 @@ class DetailedViewState extends State<DetailedView> {
 
     var exercises = await Firestore.instance.collection('exercises').getDocuments();
 
-    List exercisesOfTheDay;
-
     for (var item in listOfRequiredExercises) {
       var data = exercises.documents.singleWhere((element) => element.documentID==item['key']);
       var object = Exercise(name: data['name'],
         definition: data['definition'],
         steps: data['steps']
       );
-      exercisesOfTheDay.add(object);
-      objects.add(object);
+
+      var reps = (item['reps']!=null)?int.parse(item['reps']):0;
+      var detailedObject = DetailedExerciseData.withReps(object, reps);
+      objects.add(detailedObject);
     }
-
-
-
-//    .then((data){
-//    var listExercises = data.documents;
-//
-//    for (var required in requiredData) {
-//    print(required);
-//    }
-//
-//    var exerMap =listExercises.asMap();
-//    print(exerMap[int.parse(requiredData[0]['key'])].data);
-//
-//    List<Exercise> exercises = new List();
-//
-//    for (var o in requiredData) {
-//    print(int.parse(o['key']).toString() + " : " + listExercises.elementAt(int.parse(o['key']) - 1).data.toString());
-//
-//    var exercise = listExercises.elementAt(int.parse(o['key']) - 1).data;
-//    var object = Exercise(name: exercise['name'],
-//    definition: exercise['definition'],
-//    steps: exercise['steps'],
-//    sides: o['sides'],
-//    duration: int.parse((o['duration']!=null)?o['duration']:0),
-//    reps: int.parse((o['reps']!=null)?o['reps']:0));
-//    }
-//
-//    }
 
 
       setState(() {
@@ -316,15 +288,15 @@ class DetailedViewState extends State<DetailedView> {
 
   }
 
-  buildCards(List<Exercise> data){
+  buildCards(List<DetailedExerciseData> data){
 
     for (int i = 1; i <= data.length; i++) {
       Widget card = exerciseCard(
           assetPath: imgurl2,
-          exerciseName: data[i - 1].name,
-          exerciseDetails: (data[i - 1].definition == null)
+          exerciseName: data[i - 1].exercise.name,
+          exerciseDetails: (data[i - 1].exercise.definition == null)
               ? "dummy"
-              : data[i - 1].definition,
+              : data[i - 1].exercise.definition,
           context: context,
           counter: i
       );
