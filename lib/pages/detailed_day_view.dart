@@ -245,27 +245,63 @@ class DetailedViewState extends State<DetailedView> {
   }
 
 
-  getData()async{
-    var data = await Firestore.instance.collection('schedules').document('intermediate').get();
-    var requiredday = (widget.dayNumber%5==0)?5:widget.dayNumber%5;
-    var requiredData=data['day$requiredday'];
-    print(requiredData);
-    objects.clear();
-    if(requiredData.runtimeType != String) {
-      for (var item in requiredData) {
-        var exercise = await Firestore.instance.collection('exercises')
-            .document(item['key']).get()
-            .then((data) {
-          var object = Exercise(name: data['name'],
-              definition: data['definition'],
-              steps: data['steps'],
-              sides: item['sides'],
-              duration: int.parse( item['duration']),
-              reps: int.parse(item['reps'])
-          );
-          objects.add(object);
-        });
+
+  getData() async {
+    List listOfRequiredExercises;
+    await Firestore.instance.collection('schedules').document('intermediate').get().then((data){
+        var requiredday = (widget.dayNumber%5==0)?5:widget.dayNumber%5;
+        listOfRequiredExercises = data['day$requiredday'];
       }
+    );
+
+    objects.clear();
+
+
+    if(listOfRequiredExercises.runtimeType != String) {
+
+    var exercises = await Firestore.instance.collection('exercises').getDocuments();
+
+    List exercisesOfTheDay;
+
+    for (var item in listOfRequiredExercises) {
+      var data = exercises.documents.singleWhere((element) => element.documentID==item['key']);
+      var object = Exercise(name: data['name'],
+        definition: data['definition'],
+        steps: data['steps']
+      );
+      exercisesOfTheDay.add(object);
+      objects.add(object);
+    }
+
+
+
+//    .then((data){
+//    var listExercises = data.documents;
+//
+//    for (var required in requiredData) {
+//    print(required);
+//    }
+//
+//    var exerMap =listExercises.asMap();
+//    print(exerMap[int.parse(requiredData[0]['key'])].data);
+//
+//    List<Exercise> exercises = new List();
+//
+//    for (var o in requiredData) {
+//    print(int.parse(o['key']).toString() + " : " + listExercises.elementAt(int.parse(o['key']) - 1).data.toString());
+//
+//    var exercise = listExercises.elementAt(int.parse(o['key']) - 1).data;
+//    var object = Exercise(name: exercise['name'],
+//    definition: exercise['definition'],
+//    steps: exercise['steps'],
+//    sides: o['sides'],
+//    duration: int.parse((o['duration']!=null)?o['duration']:0),
+//    reps: int.parse((o['reps']!=null)?o['reps']:0));
+//    }
+//
+//    }
+
+
       setState(() {
         isLoaded = true;
         buildCards(objects);
